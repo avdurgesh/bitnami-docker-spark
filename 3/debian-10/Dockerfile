@@ -17,7 +17,8 @@ RUN . /opt/bitnami/scripts/libcomponent.sh && component_unpack "gosu" "1.12.0-2"
 RUN apt-get update && apt-get upgrade -y && \
     rm -r /var/lib/apt/lists /var/cache/apt/archives
 RUN chmod g+rwX /opt/bitnami
-
+RUN printf 'spark.ui.filters BasicAuthentication \nspark.com.fortytools.servlet.BasicAuthFilter.param.user admin \nspark.com.fortytools.servlet.BasicAuthFilter.param.password admmin' >> /opt/bitnami/spark/conf/spark-defaults.conf
+RUN curl https://mspcsaspark.blob.core.windows.net/jar/BasicAuthFilter-0.0.1.jar --output /opt/bitnami/spark/jars/BasicAuthFilter-0.0.1.jar
 COPY rootfs /
 RUN /opt/bitnami/scripts/spark/postunpack.sh
 ENV BITNAMI_APP_NAME="spark" \
